@@ -1,10 +1,18 @@
-# Telegram export parser
+# Telegram Export Parser
 
-Скрипт, который парсит result.json (экспорт чата телеграма).
+[[Русская версия]](README-ru.md)
 
-Основная ценность скрипта в структуре, в которую парсится экспорт чата, она нетривиальная.
+Parses Telegram chat exports from `result.json`.
 
-## Возможности
-- Запись только текста сообщений в файл (converted.txt).
-- Печать сообщений в stdout
-- Можно задать дату, сообщения до которой игнорируются
+The main value of this project is the Go data model for Telegram export JSON. The export structure is not trivial, especially for message text entities and rich text parts.
+
+---
+
+## What it does
+
+- Reads a Telegram export JSON file.
+- Unmarshals the export into Go structs.
+- Filters messages by date.
+- Writes plain message text to an output file.
+- Optionally prints messages to stdout in a table.
+- Prints input and output file sizes.

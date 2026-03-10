@@ -1,4 +1,4 @@
-module telegram_history_parse
+module telegram-export-parser
 
 go 1.25
 

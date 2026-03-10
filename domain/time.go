@@ -18,6 +18,7 @@ func (t *TelegramTime) UnmarshalJSON(b []byte) error {
 	}
 
 	var s string
+
 	err := json.Unmarshal(b, &s)
 	if err != nil {
 		return err
@@ -54,9 +55,9 @@ func (t *TelegramTime) UnmarshalJSON(b []byte) error {
 }
 
 func (t TelegramTime) MarshalJSON() ([]byte, error) {
-	if t.Time.IsZero() {
+	if t.IsZero() {
 		return []byte("null"), nil
 	}
 
-	return json.Marshal(t.Time.Format(time.RFC3339Nano))
+	return json.Marshal(t.Format(time.RFC3339Nano))
 }

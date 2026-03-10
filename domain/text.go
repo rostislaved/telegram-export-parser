@@ -2,6 +2,7 @@ package domain
 
 import (
 	"encoding/json"
+	"log/slog"
 	"strings"
 )
 
@@ -34,7 +35,7 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 		part := Part{Type: TextType, M: map[PartType]any{TextType: textValue}}
 
 		parts = append(parts, part)
-	case []interface{}:
+	case []any:
 		textParts := textValue
 
 		for _, textPart := range textParts {
@@ -43,8 +44,11 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 				part := Part{Type: TextType, M: map[PartType]any{TextType: vvv}}
 
 				parts = append(parts, part)
-			case map[string]interface{}:
-				_type := vvv["type"].(string)
+			case map[string]any:
+				_type, ok := vvv["type"].(string)
+				if !ok {
+					slog.Error("failed to parse type from text")
+				}
 
 				m := make(map[PartType]any)
 
@@ -63,8 +67,12 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 				}
 
 				parts = append(parts, part)
+			default:
+				slog.Error("Unknown part type in text")
 			}
 		}
+	default:
+		slog.Error("Unknown part type in text")
 	}
 
 	t.Parts = parts

@@ -25,7 +25,7 @@ const (
 	Spoiler       PartType = "spoiler"
 	Strikethrough PartType = "strikethrough"
 	TextLink      PartType = "text_link"
-	TextType      PartType = "text" // в TextEntity это судя по всему Plain
+	TextType      PartType = "text" // In TextEntity this appears to map to Plain.
 	TypeType      PartType = "type"
 	Underline     PartType = "underline"
 
@@ -36,104 +36,75 @@ const (
 	UserID     PartType = "user_id"
 )
 
+var partTypes = map[string]PartType{
+	"type":          TypeType,
+	"text":          TextType,
+	"mention":       Mention,
+	"hashtag":       Hashtag,
+	"link":          Link,
+	"bot_command":   BotCommand,
+	"bold":          Bold,
+	"code":          Code,
+	"pre":           Pre,
+	"phone":         Phone,
+	"italic":        Italic,
+	"mention_name":  MentionName,
+	"email":         Email,
+	"text_link":     TextLink,
+	"cashtag":       Cashtag,
+	"underline":     Underline,
+	"strikethrough": Strikethrough,
+	"spoiler":       Spoiler,
+	"custom_emoji":  CustomEmoji,
+	"blockquote":    Blockquote,
+	"language":      Language,
+	"user_id":       UserID,
+	"href":          Href,
+	"document_id":   DocumentID,
+	"collapsed":     Collapsed,
+}
+
+var stringPartTypes = map[PartType]struct{}{
+	TextType:      {},
+	Mention:       {},
+	Hashtag:       {},
+	Link:          {},
+	BotCommand:    {},
+	Bold:          {},
+	Code:          {},
+	Pre:           {},
+	Phone:         {},
+	Italic:        {},
+	MentionName:   {},
+	Email:         {},
+	TextLink:      {},
+	Cashtag:       {},
+	Underline:     {},
+	Strikethrough: {},
+	Spoiler:       {},
+	CustomEmoji:   {},
+	Blockquote:    {},
+}
+
 func (p Part) String() string {
-	switch p.Type {
-	case TextType:
-		return p.M["text"].(string)
-	case Mention:
-		return p.M["text"].(string)
-	case Hashtag:
-		return p.M["text"].(string)
-	case Link:
-		return p.M["text"].(string)
-	case BotCommand:
-		return p.M["text"].(string)
-	case Bold:
-		return p.M["text"].(string)
-	case Code:
-		return p.M["text"].(string)
-	case Pre:
-		return p.M["text"].(string)
-	case Phone:
-		return p.M["text"].(string)
-	case Italic:
-		return p.M["text"].(string)
-	case MentionName:
-		return p.M["text"].(string)
-	case Email:
-		return p.M["text"].(string)
-	case TextLink:
-		return p.M["text"].(string)
-	case Cashtag:
-		return p.M["text"].(string)
-	case Underline:
-		return p.M["text"].(string)
-	case Strikethrough:
-		return p.M["text"].(string)
-	case Spoiler:
-		return p.M["text"].(string)
-	case CustomEmoji:
-		return p.M["text"].(string)
-	case Blockquote:
-		return p.M["text"].(string)
-	default:
+	_, ok := stringPartTypes[p.Type]
+	if !ok {
 		panic("unknown part type: " + p.Type)
 	}
+
+	text, ok := p.M[TextType].(string)
+	if !ok {
+		panic("text is not a string")
+	}
+
+	return text
 }
 
 func getPartType(s string) PartType {
-	switch s {
-	case "type":
-		return TypeType
-	case "text":
-		return TextType
-	case "mention":
-		return Mention
-	case "hashtag":
-		return Hashtag
-	case "link":
-		return Link
-	case "bot_command":
-		return BotCommand
-	case "bold":
-		return Bold
-	case "code":
-		return Code
-	case "pre":
-		return Pre
-	case "phone":
-		return Phone
-	case "italic":
-		return Italic
-	case "mention_name":
-		return MentionName
-	case "email":
-		return Email
-	case "text_link":
-		return TextLink
-	case "cashtag":
-		return Cashtag
-	case "underline":
-		return Underline
-	case "strikethrough":
-		return Strikethrough
-	case "spoiler":
-		return Spoiler
-	case "custom_emoji":
-		return CustomEmoji
-	case "blockquote":
-		return Blockquote
-	case "language":
-		return Language
-	case "user_id":
-		return UserID
-	case "href":
-		return Href
-	case "document_id":
-		return DocumentID
-	case "collapsed":
-		return Collapsed
-	default:
+	partType, ok := partTypes[s]
+	if !ok {
 		panic("unknown part type: " + s)
 	}
+
+	return partType
 }
