@@ -8,13 +8,14 @@ import (
 	"time"
 
 	"github.com/jedib0t/go-pretty/v6/table"
+
 	"telegram-export-parser/domain"
 	"telegram-export-parser/stopwatch"
 )
 
 var (
 	// Skip messages older than this date.
-	dateFrom = time.Date(2025, time.January, 1, 1, 1, 1, 1, time.UTC)
+	dateFrom = time.Date(2005, time.January, 1, 1, 1, 1, 1, time.UTC)
 
 	// Print the messages table to stdout as well.
 	printToStdout = false

@@ -57,7 +57,7 @@ func (s *stopwatch) PrintFromPrevious() {
 			s.snapshots[i].lineNumber,
 			s.snapshots[i+1].lineNumber,
 			interval.Round(time.Millisecond),
-			s.snapshots[i].joinedMessages,
+			s.snapshots[i+1].joinedMessages,
 		)
 
 		s.logger.Info(message)

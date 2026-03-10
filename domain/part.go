@@ -29,6 +29,9 @@ const (
 	TypeType      PartType = "type"
 	Underline     PartType = "underline"
 
+	BankCard PartType = "bank_card"
+	Unknown  PartType = "unknown"
+
 	Language   PartType = "language"
 	Href       PartType = "href"
 	DocumentID PartType = "document_id"
@@ -84,6 +87,8 @@ var stringPartTypes = map[PartType]struct{}{
 	Spoiler:       {},
 	CustomEmoji:   {},
 	Blockquote:    {},
+	BankCard:      {},
+	Unknown:       {},
 }
 
 func (p Part) String() string {
