@@ -9,8 +9,8 @@ import (
 
 	"github.com/jedib0t/go-pretty/v6/table"
 
-	"telegram-export-parser/domain"
-	"telegram-export-parser/stopwatch"
+	"github.com/Turbocat6413/telegram-export-parser/domain"
+	"github.com/Turbocat6413/telegram-export-parser/stopwatch"
 )
 
 var (
