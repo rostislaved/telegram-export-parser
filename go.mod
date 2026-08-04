@@ -1,4 +1,4 @@
-module telegram-export-parser
+module github.com/Turbocat6413/telegram-export-parser
 
 go 1.25
 
