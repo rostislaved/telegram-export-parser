@@ -1,4 +1,4 @@
-package domain
+package part
 
 type Part struct {
 	Type PartType
@@ -105,7 +105,7 @@ func (p Part) String() string {
 	return text
 }
 
-func getPartType(s string) PartType {
+func GetPartType(s string) PartType {
 	partType, ok := partTypes[s]
 	if !ok {
 		panic("unknown part type: " + s)

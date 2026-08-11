@@ -1,13 +1,15 @@
-package domain
+package text
 
 import (
 	"encoding/json"
 	"log/slog"
 	"strings"
+
+	"telegram-export-parser/domain/part"
 )
 
 type Text struct {
-	Parts []Part
+	Parts []part.Part
 }
 
 func (t *Text) String() string {
@@ -28,11 +30,11 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	var parts []Part
+	var parts []part.Part
 
 	switch textValue := text.(type) {
 	case string:
-		part := Part{Type: TextType, M: map[PartType]any{TextType: textValue}}
+		part := part.Part{Type: part.TextType, M: map[part.PartType]any{part.TextType: textValue}}
 
 		parts = append(parts, part)
 	case []any:
@@ -41,7 +43,7 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 		for _, textPart := range textParts {
 			switch vvv := textPart.(type) {
 			case string:
-				part := Part{Type: TextType, M: map[PartType]any{TextType: vvv}}
+				part := part.Part{Type: part.TextType, M: map[part.PartType]any{part.TextType: vvv}}
 
 				parts = append(parts, part)
 			case map[string]any:
@@ -50,19 +52,19 @@ func (t *Text) UnmarshalJSON(data []byte) error {
 					slog.Error("failed to parse type from text")
 				}
 
-				m := make(map[PartType]any)
+				m := make(map[part.PartType]any)
 
 				for k1, v1 := range vvv {
-					t := getPartType(k1)
-					if t == TypeType {
+					t := part.GetPartType(k1)
+					if t == part.TypeType {
 						continue
 					}
 
 					m[t] = v1
 				}
 
-				part := Part{
-					Type: PartType(_type),
+				part := part.Part{
+					Type: part.PartType(_type),
 					M:    m,
 				}
 

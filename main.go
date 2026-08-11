@@ -9,7 +9,9 @@ import (
 
 	"github.com/jedib0t/go-pretty/v6/table"
 
-	"telegram-export-parser/domain"
+	"telegram-export-parser/domain/history"
+	message_pkg "telegram-export-parser/domain/message"
+	"telegram-export-parser/domain/telegram_time"
 	"telegram-export-parser/stopwatch"
 )
 
@@ -25,6 +27,8 @@ var (
 
 	inputFilename  = "result.json"
 	outputFilename = "output.txt"
+
+	outputType = "json"
 )
 
 func main() {
@@ -32,6 +36,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 }
 
 func Start() (err error) {
@@ -51,7 +56,7 @@ func Start() (err error) {
 
 	s.Toc("Open input file")
 
-	var history domain.HistoryDTO
+	var history history.History
 
 	err = json.Unmarshal(resultBytes, &history)
 	if err != nil {
@@ -60,7 +65,7 @@ func Start() (err error) {
 
 	s.Toc("Unmarshal")
 
-	file, err := os.OpenFile(
+	outputFile, err := os.OpenFile(
 		outputFilename,
 		os.O_CREATE|os.O_WRONLY|os.O_TRUNC,
 		0o600,
@@ -70,7 +75,7 @@ func Start() (err error) {
 	}
 
 	defer func() {
-		closeErr := file.Close()
+		closeErr := outputFile.Close()
 		if err == nil && closeErr != nil {
 			err = closeErr
 		}
@@ -78,8 +83,14 @@ func Start() (err error) {
 
 	currentLine := 1
 
+	pms := make([]ParsedMessage, 0, 1000)
+
 	for _, message := range history.Messages {
 		if message.Date.Before(dateFrom) {
+			continue
+		}
+
+		if message.Type == message_pkg.Service {
 			continue
 		}
 
@@ -93,12 +104,36 @@ func Start() (err error) {
 			printTable(currentLine, message)
 		}
 
-		_, err = file.WriteString(message.Text.String() + "\n")
+		pm := ParsedMessage{
+			ID:        message.ID,
+			ReplyToID: message.ReplyToMessageID,
+			Timestamp: message.Date,
+			Text:      message.Text.String(),
+		}
+
+		pms = append(pms, pm)
+
+		currentLine++
+	}
+
+	switch outputType {
+	case "json":
+		pmsBytes, err := json.MarshalIndent(pms, " ", " ")
+		if err != nil {
+			return err
+		}
+
+		_, err = outputFile.Write(pmsBytes)
 		if err != nil {
 			panic(err)
 		}
-
-		currentLine++
+	case "text":
+		for _, pm := range pms {
+			_, err = outputFile.WriteString(pm.Text + "\n")
+			if err != nil {
+				panic(err)
+			}
+		}
 	}
 
 	s.Toc("Write to output file")
@@ -115,7 +150,14 @@ func Start() (err error) {
 	return nil
 }
 
-func printTable(lines int, message domain.MessageDTO) {
+type ParsedMessage struct {
+	ID        int                        `json:"id"`
+	ReplyToID int                        `json:"reply_to_id,omitzero"`
+	Timestamp telegram_time.TelegramTime `json:"date"`
+	Text      string                     `json:"text"`
+}
+
+func printTable(lines int, message message_pkg.Message) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.SetStyle(table.StyleLight)

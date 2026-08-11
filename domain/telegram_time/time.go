@@ -1,4 +1,4 @@
-package domain
+package telegram_time
 
 import (
 	"encoding/json"

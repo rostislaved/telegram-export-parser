@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.2 - 2026-08-12
+Added:
+- New mode: extract to json (in addition to extract to plain text)
+
+Fixed:
+- Skip "service" message (pin_message, "user1 Added user2", etc)
+
+Changed:
+- Moved domain types into dedicated packages
+
 ## v1.0.1 - 2026-03-10
 Fixed:
 - Added missing types: bank_card and unknown
