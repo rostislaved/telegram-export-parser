@@ -5,8 +5,8 @@ import (
 )
 
 type ExportDTO struct {
+	ID       int               `json:"id"`
 	Name     string            `json:"name"`
 	Type     string            `json:"type"`
-	ID       int               `json:"id"`
 	Messages []message.Message `json:"messages"`
 }
