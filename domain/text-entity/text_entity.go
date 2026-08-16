@@ -1,25 +1,34 @@
 package text_entity
 
-type TextEntity string
+type TextEntity struct {
+	Type       TextEntityType `json:"type"`
+	Text       string         `json:"text"`
+	Collapsed  bool           `json:"collapsed"`
+	DocumentID string         `json:"document_id"`
+	Href       string         `json:"href,omitempty,omitzero"`
+	Language   string         `json:"language"`
+	UserID     int            `json:"user_id,omitempty,omitzero"`
+}
+type TextEntityType string
 
 const (
-	Blockquote    TextEntity = "blockquote"
-	Bold          TextEntity = "bold"
-	BotCommand    TextEntity = "bot_command"
-	Cashtag       TextEntity = "cashtag"
-	Code          TextEntity = "code"
-	CustomEmoji   TextEntity = "custom_emoji"
-	Email         TextEntity = "email"
-	Hashtag       TextEntity = "hashtag"
-	Italic        TextEntity = "italic"
-	Link          TextEntity = "link"
-	Mention       TextEntity = "mention"
-	MentionName   TextEntity = "mention_name"
-	Phone         TextEntity = "phone"
-	Plain         TextEntity = "plain"
-	Pre           TextEntity = "pre"
-	Spoiler       TextEntity = "spoiler"
-	Strikethrough TextEntity = "strikethrough"
-	TextLink      TextEntity = "text_link"
-	Underline     TextEntity = "underline"
+	Blockquote    TextEntityType = "blockquote"
+	Bold          TextEntityType = "bold"
+	BotCommand    TextEntityType = "bot_command"
+	Cashtag       TextEntityType = "cashtag"
+	Code          TextEntityType = "code"
+	CustomEmoji   TextEntityType = "custom_emoji"
+	Email         TextEntityType = "email"
+	Hashtag       TextEntityType = "hashtag"
+	Italic        TextEntityType = "italic"
+	Link          TextEntityType = "link"
+	Mention       TextEntityType = "mention"
+	MentionName   TextEntityType = "mention_name"
+	Phone         TextEntityType = "phone"
+	Plain         TextEntityType = "plain"
+	Pre           TextEntityType = "pre"
+	Spoiler       TextEntityType = "spoiler"
+	Strikethrough TextEntityType = "strikethrough"
+	TextLink      TextEntityType = "text_link"
+	Underline     TextEntityType = "underline"
 )

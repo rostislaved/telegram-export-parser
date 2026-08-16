@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.3 - 2026-08-12
+Fixed:
+- type for polls
+- telegram datetime unmarshal implementation improved
+- reaction datetime string->datetime
+- History struct -> ExportDTO
+Added:
+- types for: text_entities
+
 ## v1.0.2 - 2026-08-12
 Added:
 - New mode: extract to json (in addition to extract to plain text)

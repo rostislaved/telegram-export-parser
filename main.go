@@ -9,9 +9,9 @@ import (
 
 	"github.com/jedib0t/go-pretty/v6/table"
 
-	"telegram-export-parser/domain/history"
+	"telegram-export-parser/domain/datetime"
+	"telegram-export-parser/domain/export_dto"
 	message_pkg "telegram-export-parser/domain/message"
-	"telegram-export-parser/domain/telegram_time"
 	"telegram-export-parser/stopwatch"
 )
 
@@ -25,8 +25,9 @@ var (
 	// Number of lines to write to the file. Negative values and 0 mean no limit.
 	linesToWrite = 0
 
-	inputFilename  = "result.json"
-	outputFilename = "output.txt"
+	inputFilename = "/home/rostislav/Archive/projects/GolandProjects/1_my-projects/telegram-export-parser/exports/ChatExport_2026-08-15 china/result.json"
+	// inputFilename  = "result.json"
+	outputFilename = "parser_output.txt"
 
 	outputType = "json"
 )
@@ -56,7 +57,7 @@ func Start() (err error) {
 
 	s.Toc("Open input file")
 
-	var history history.History
+	var history export_dto.ExportDTO
 
 	err = json.Unmarshal(resultBytes, &history)
 	if err != nil {
@@ -151,10 +152,10 @@ func Start() (err error) {
 }
 
 type ParsedMessage struct {
-	ID        int                        `json:"id"`
-	ReplyToID int                        `json:"reply_to_id,omitzero"`
-	Timestamp telegram_time.TelegramTime `json:"date"`
-	Text      string                     `json:"text"`
+	ID        int               `json:"id"`
+	ReplyToID int               `json:"reply_to_id,omitzero"`
+	Timestamp datetime.DateTime `json:"date"`
+	Text      string            `json:"text"`
 }
 
 func printTable(lines int, message message_pkg.Message) {
