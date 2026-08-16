@@ -4,10 +4,14 @@
 Fixed:
 - type for polls
 - telegram datetime unmarshal implementation improved
-- reaction datetime string->datetime
-- History struct -> ExportDTO
+- rename History struct -> ExportDTO
 Added:
-- types for: text_entities
+
+
+Changed:
+- types:
+reaction datetime: string->datetime
+text_entity: []any->[]TextEntity
 
 ## v1.0.2 - 2026-08-12
 Added:
