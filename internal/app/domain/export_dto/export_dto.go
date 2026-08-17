@@ -1,7 +1,7 @@
 package export_dto
 
 import (
-	"telegram-export-parser/domain/message"
+	"telegram-export-parser/internal/app/domain/message"
 )
 
 type ExportDTO struct {

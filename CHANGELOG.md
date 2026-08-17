@@ -1,17 +1,22 @@
 # Changelog
 
-## v1.0.3 - 2026-08-12
-Fixed:
-- type for polls
-- telegram datetime unmarshal implementation improved
-- rename History struct -> ExportDTO
+## v1.0.3 - 2026-08-17
 Added:
-
+- Many previously missing DTO fields
+- A String() method for TextEntity that returns text according to the entity type; for example, text links are converted to "text: link"
 
 Changed:
-- types:
-reaction datetime: string->datetime
-text_entity: []any->[]TextEntity
+- Refactored the DTO structure
+- Refactored the Text and DateTime types
+- Removed duplicate enum constants
+
+Other changes:
+- Domain model: renamed History to ExportDTO and improved message type definitions
+- Parsing: improved handling of polls, reactions, message text, and optional fields
+- Project configuration: updated output paths, ignored generated exports
+- Moved code under internal directory
+- Updated golanci-lint config
+
 
 ## v1.0.2 - 2026-08-12
 Added:

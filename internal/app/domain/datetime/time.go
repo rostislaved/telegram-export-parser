@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Telegram stores datetime as "2024-07-28T16:32:57"
+// Telegram stores datetime as "2024-07-28T16:32:57".
 type DateTime struct {
 	time.Time
 }
